@@ -12,4 +12,14 @@ public class Test {
     private String fundname;
     private String contents;
     private String reword;
+
+
+/*
+ CREATE TABLE `title` (
+ `id` int(11) AUTO_INCREMENT,
+ `title_name` text,
+ `description` text,
+ PRIMARY KEY (`id`)
+)
+*/
 }

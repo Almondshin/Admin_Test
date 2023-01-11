@@ -22,7 +22,7 @@ public class TestController {
         test.setContents("This will tell you how to connect with databases in a spring project");
         test.setReword("Reword set");
         testDao.add(test);
-        return "title name which is saved is "+ test.getFundcode();
+        return "title name which is saved is " + test.getContents();
     }
 }
 
