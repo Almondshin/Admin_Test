@@ -23,29 +23,27 @@ import java.io.IOException;
  * <tx:annotation-driven>
  */
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
 @EnableTransactionManagement
+@Configuration
 public class DatabaseConfig {
 
-    @Autowired
-    ApplicationContext applicationContext;
-
-
-/**
+    /**
      * DataSource 설정
      * <bean id="dataSource"
-     *  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-     *  <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-     *  <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
-     *  <property name="username" value="intercast" />
-     *  <property name="password" value="pass123!" />
+     * class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+     * <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+     * <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+     * <property name="username" value="intercast" />
+     * <property name="password" value="pass123!" />
      * </bean>
      *
      * @return
@@ -53,28 +51,35 @@ public class DatabaseConfig {
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql//localhost:3306/test");
-//        dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/test");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root123");
-        return dataSource;
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+//        dataSource.setUrl("jdbc:mysql//localhost:3306/test");
+//        dataSource.setUsername("root");
+//        dataSource.setPassword("root123");
+        HikariConfig config = new HikariConfig();
+        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        config.setJdbcUrl("jdbc:mysql://localhost:3306/test");
+        config.setUsername("root");
+        config.setPassword("root123");
+
+        return new HikariDataSource(config);
     }
 
-
-
+    @Bean
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
 
 /**
-     * TransactionManager설정
-     *
-     * <bean id="transactionManager"
-     *  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-     *  <property name="dataSource" ref="dataSource"></property>
-     * </bean>
-     *
-     * @return
-     *//*
+ * TransactionManager설정
+ *
+ * <bean id="transactionManager"
+ *  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+ *  <property name="dataSource" ref="dataSource"></property>
+ * </bean>
+ *
+ * @return
+ *//*
 
     @Bean
     public DataSourceTransactionManager transactionManager() {
@@ -85,19 +90,19 @@ public class DatabaseConfig {
 
     */
 /**
-     * SqlSessionFactory 설정
-     *
-     * <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-     *  <property name="dataSource" ref="dataSource" />
-     *  <property name="configLocation" value="classpath:mybatis/configuration.xml" />
-     * <property name="mapperLocations" value="classpath:mybatis/mappers/** /*.xml" />
-     * </bean>
-     *
-     * @param dataSource
-     * @param applicationContext
-     * @return
-     * @throws IOException
-     *//*
+ * SqlSessionFactory 설정
+ *
+ * <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+ *  <property name="dataSource" ref="dataSource" />
+ *  <property name="configLocation" value="classpath:mybatis/configuration.xml" />
+ * <property name="mapperLocations" value="classpath:mybatis/mappers/** /*.xml" />
+ * </bean>
+ *
+ * @param dataSource
+ * @param applicationContext
+ * @return
+ * @throws IOException
+ *//*
 
     @Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {
@@ -108,15 +113,15 @@ public class DatabaseConfig {
 
     */
 /**
-     * SqlSessionTemplate 설정
-     *
-     * <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-     *  <constructor-arg ref="sqlSessionFactory" />
-     * </bean>
-     *
-     * @param sqlSessionFactory
-     * @return
-     */
+ * SqlSessionTemplate 설정
+ *
+ * <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+ *  <constructor-arg ref="sqlSessionFactory" />
+ * </bean>
+ *
+ * @param sqlSessionFactory
+ * @return
+ */
 /*
     @Bean
     public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {

@@ -1,30 +1,28 @@
 package com.admin_test.controller;
 
+import com.admin_test.dao.TestDao;
+import com.admin_test.vo.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class TestController {
-    @GetMapping("/index")
-    public String index(){
-        return "index";
-    }
 
-    @GetMapping("/")
-    public String home(Model model) {
-        model.addAttribute("message", "Hello World!");
-        return "home";
-    }
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public String list() {
-        return "hello";
-    }
-    @GetMapping(value = "/list")
-    public String indexPage() {
-        return "list";
+    @Autowired
+    private TestDao testDao;
+
+    @RequestMapping("saveFundList")
+    @ResponseBody
+    public String saveFundList() {
+        Test test = new Test();
+
+        test.setFundname("spring");
+        test.setContents("This will tell you how to connect with databases in a spring project");
+        test.setReword("Reword set");
+        testDao.add(test);
+        return "title name which is saved is "+ test.getFundcode();
     }
 }
 

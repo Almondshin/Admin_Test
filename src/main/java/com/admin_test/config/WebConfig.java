@@ -34,7 +34,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 /*
  * 스캔할 패키지 지정
  * */
-@ComponentScan(basePackages = {"com.admin_test.controller"})
+@ComponentScan(basePackages = {"com.admin_test.controller","com.admin_test.dao"})
 public class WebConfig implements WebMvcConfigurer {
 
     /*

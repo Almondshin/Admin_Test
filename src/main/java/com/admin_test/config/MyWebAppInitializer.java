@@ -10,7 +10,7 @@ public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServl
     // Bean을 정의하는 클래스를 지정한다.
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{RootConfig.class};
+        return new Class<?>[]{RootConfig.class, DatabaseConfig.class};
     }
 
     /**/
