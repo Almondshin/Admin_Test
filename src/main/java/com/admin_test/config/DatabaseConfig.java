@@ -21,7 +21,15 @@ import java.io.IOException;
 /*
  * Spring 프레임워크의 어노 테이션 기반 트랜잭션 관리를 사용할 수 있도록 한다.
  * <tx:annotation-driven>
- *//*
+ */
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.sql.DataSource;
 
 @EnableTransactionManagement
 public class DatabaseConfig {
@@ -29,7 +37,7 @@ public class DatabaseConfig {
     @Autowired
     ApplicationContext applicationContext;
 
-    */
+
 /**
      * DataSource 설정
      * <bean id="dataSource"
@@ -41,7 +49,7 @@ public class DatabaseConfig {
      * </bean>
      *
      * @return
-     *//*
+     */
 
     @Bean
     public DataSource dataSource() {
@@ -56,7 +64,7 @@ public class DatabaseConfig {
 
 
 
-    */
+
 /**
      * TransactionManager설정
      *
@@ -108,11 +116,11 @@ public class DatabaseConfig {
      *
      * @param sqlSessionFactory
      * @return
-     *//*
-
+     */
+/*
     @Bean
     public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
-    }
+    }*/
 }
-*/
+
